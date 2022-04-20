@@ -9,5 +9,3 @@ Clone or download the repo and copy the file `projector-setup` to an appropriate
 - `dmenu`
 - `sh`
 - `xrandr`
-
-> NOTE: This script only works on X11.
