@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -e
 
 target_monitor=$(xrandr --query | awk '/ connected/{print $1}' | dmenu)
 if [ -z $target_monitor ];
