@@ -1,0 +1,28 @@
+#!/bin/bash
+
+target_monitor=$(xrandr --query | awk '/ connected/{print $1}' | dmenu)
+if [ -z $target_monitor ];
+then
+	return
+fi
+resolution=$(xrandr --query | awk "n{print \$1; n=0} /$target_monitor connected/{n=1}")
+if [ -z $resolution ];
+then
+	return
+fi
+position=$(echo -e "same-as\nright-of\noff" | dmenu)
+if [ -z $position ];
+then
+	return
+fi
+if [ $position == "off" ];
+then
+	sh -c "xrandr --output $target_monitor --off"
+else
+	ref_monitor=$(xrandr --query | awk "/ connected/{n=1} /$target_monitor/{n=0} n{print \$1; n=0}" | dmenu)
+	if [ -z $ref_monitor ];
+	then
+		return
+	fi
+	sh -c "xrandr --output $target_monitor --mode $resolution --$position $ref_monitor"
+fi
