@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-target_monitor=$(xrandr --query | awk '/ connected/{print $1}' | dmenu)
+target_monitor=$(xrandr --query | awk '/ connected/{print $1}' | dmenu -p "Secondary Monitor")
 if [ -z $target_monitor ];
 then
 	return
@@ -10,7 +10,7 @@ if [ -z $resolution ];
 then
 	return
 fi
-position=$(echo -e "same-as\nright-of\noff" | dmenu)
+position=$(echo -e "same-as\nright-of\noff" | dmenu -p "Position")
 if [ -z $position ];
 then
 	return
@@ -19,7 +19,7 @@ if [ $position == "off" ];
 then
 	sh -c "xrandr --output $target_monitor --off"
 else
-	ref_monitor=$(xrandr --query | awk "/ connected/{n=1} /$target_monitor/{n=0} n{print \$1; n=0}" | dmenu)
+	ref_monitor=$(xrandr --query | awk "/ connected/{n=1} /$target_monitor/{n=0} n{print \$1; n=0}" | dmenu -p "Primary Monitor")
 	if [ -z $ref_monitor ];
 	then
 		return
